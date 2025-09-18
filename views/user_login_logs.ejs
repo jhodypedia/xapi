@@ -1,0 +1,25 @@
+<h3 class="mb-3"><i class="fa fa-shield-alt me-2"></i>Riwayat Login Saya</h3>
+<table class="table">
+  <thead>
+    <tr><th>IP</th><th>Lokasi</th><th>Browser</th><th>OS</th><th>Device</th><th>Status</th><th>Waktu</th></tr>
+  </thead>
+  <tbody>
+    <% logs.forEach(log => { %>
+      <tr class="<%= log.suspicious ? 'table-danger' : '' %>">
+        <td><%= log.ip %></td>
+        <td><%= log.city %>, <%= log.country %></td>
+        <td><%= log.browser %></td>
+        <td><%= log.os %></td>
+        <td><%= log.device %></td>
+        <td>
+          <% if (log.suspicious) { %>
+            <span class="badge badge-danger">Suspicious</span>
+          <% } else { %>
+            <span class="badge badge-success">Normal</span>
+          <% } %>
+        </td>
+        <td><%= new Date(log.createdAt).toLocaleString() %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
