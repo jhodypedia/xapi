@@ -1,14 +1,13 @@
-<h2 class="mb-3">All Notifications</h2>
-<table class="table">
-  <thead><tr><th>UserId</th><th>Title</th><th>Message</th><th>Created</th></tr></thead>
-  <tbody>
-  <% notes.forEach(n=>{ %>
-    <tr>
-      <td><%= n.userId %></td>
-      <td><%= n.title %></td>
-      <td><%= n.message %></td>
-      <td><%= new Date(n.createdAt).toLocaleString() %></td>
-    </tr>
+<h3 class="mb-3"><i class="fa fa-inbox me-2"></i>All Notifications</h3>
+<div class="notice-list">
+  <% rows.forEach(n => { %>
+    <div class="notice">
+      <div class="ic"><i class="fa fa-bell"></i></div>
+      <div class="body">
+        <div class="title"><%= n.title %> <span class="text-muted">— <%= n.User?.email %></span></div>
+        <div class="time"><%= n.createdAt.toLocaleString() %></div>
+        <div><%= n.message %></div>
+      </div>
+    </div>
   <% }) %>
-  </tbody>
-</table>
+</div>
