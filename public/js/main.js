@@ -1,102 +1,56 @@
-function bindAjaxLinks(){
-  document.querySelectorAll(".ajax-link").forEach(a=>{
-    a.addEventListener("click", async e=>{
-      e.preventDefault();
-      const url = a.getAttribute("href");
-      const res = await fetch(url, { headers:{ "X-Requested-With":"XMLHttpRequest" } });
-      const html = await res.text();
-      document.getElementById("content").innerHTML = html;
-      window.history.pushState({}, "", url);
-      bindAjaxForms();
-      bindSettingsTwitterButtons();
-    });
-  });
-}
-function bindAjaxForms(){
-  document.querySelectorAll("form.ajax").forEach(form=>{
-    form.addEventListener("submit", async e=>{
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(form).entries());
-      const res = await fetch(form.action, {
-        method: form.method || "POST",
-        headers: { "Content-Type":"application/json" },
-        body: JSON.stringify(data)
-      });
-      const json = await res.json();
-      Swal.fire({
-        icon: json.success ? "success" : "error",
-        title: json.success ? "Berhasil" : "Gagal",
-        text: json.message || json.error || ""
-      });
-      if (json.redirect){
-        const r = await fetch(json.redirect, { headers: { "X-Requested-With":"XMLHttpRequest" }});
-        const h = await r.text();
-        document.getElementById("content").innerHTML = h;
-        window.history.pushState({}, "", json.redirect);
-        bindAjaxForms();
-        bindSettingsTwitterButtons();
-      }
-    });
-  });
-}
-function bindSettingsTwitterButtons(){
-  const testBtn = document.getElementById("testBtn");
-  const connectBtn = document.getElementById("connectBtn");
-  const getData = () => ({
-    apiKey: document.getElementById("apiKey")?.value || "",
-    apiSecret: document.getElementById("apiSecret")?.value || "",
-    accessToken: document.getElementById("accessToken")?.value || "",
-    accessSecret: document.getElementById("accessSecret")?.value || ""
-  });
-  if (testBtn){
-    testBtn.onclick = async () => {
-      const res = await fetch("/settings/twitter/test", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify(getData())
-      });
-      const j = await res.json();
-      Swal.fire({
-        icon: j.success ? "success" : "error",
-        title: j.success ? "Berhasil Terhubung" : "Gagal Terhubung",
-        text: j.success ? `@${j.username} (ID: ${j.id})` : j.error
-      });
-    };
-  }
-  if (connectBtn){
-    connectBtn.onclick = async () => {
-      const res = await fetch("/settings/twitter", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify(getData())
-      });
-      const j = await res.json();
-      Swal.fire({
-        icon: j.success ? "success" : "error",
-        title: j.success ? "Terhubung" : "Gagal",
-        text: j.success ? `Akun: @${j.username} tersimpan` : j.error
-      }).then(async ()=>{
-        if (j.success){
-          const r = await fetch("/settings", { headers:{ "X-Requested-With":"XMLHttpRequest" }});
-          const h = await r.text();
-          document.getElementById("content").innerHTML = h;
-          window.history.pushState({}, "", "/settings");
-          bindAjaxForms();
-          bindSettingsTwitterButtons();
-        }
-      });
-    };
-  }
-}
-window.addEventListener("popstate", async ()=>{
-  const res = await fetch(location.pathname, { headers:{ "X-Requested-With":"XMLHttpRequest" }});
-  const html = await res.text();
-  document.getElementById("content").innerHTML = html;
-  bindAjaxForms();
-  bindSettingsTwitterButtons();
+// Ripple
+document.addEventListener("mousedown", (e) => {
+  const t = e.target.closest(".ripple");
+  if (!t) return;
+  const rect = t.getBoundingClientRect();
+  t.style.setProperty("--x", `${((e.clientX - rect.left) / rect.width) * 100}%`);
+  t.style.setProperty("--y", `${((e.clientY - rect.top) / rect.height) * 100}%`);
 });
-document.addEventListener("DOMContentLoaded", ()=>{
-  bindAjaxLinks();
-  bindAjaxForms();
-  bindSettingsTwitterButtons();
-});
+
+// Toast
+function toast(icon, title, text) {
+  Swal.fire({ icon, title, text, timer: 2000, showConfirmButton: false });
+}
+
+// Helper fetch
+async function postJSON(url, payload) {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  return res.json();
+}
+
+// Twitter form
+function readTwitterForm() {
+  return {
+    apiKey: document.getElementById("apiKey")?.value.trim(),
+    apiSecret: document.getElementById("apiSecret")?.value.trim(),
+    accessToken: document.getElementById("accessToken")?.value.trim(),
+    accessSecret: document.getElementById("accessSecret")?.value.trim()
+  };
+}
+
+const testBtn = document.getElementById("testBtn");
+const connectBtn = document.getElementById("connectBtn");
+
+if (testBtn) {
+  testBtn.addEventListener("click", async () => {
+    const payload = readTwitterForm();
+    if (Object.values(payload).some(v => !v)) return toast("error", "Gagal", "Semua field wajib diisi");
+    const r = await postJSON("/settings/twitter/test", payload);
+    if (r.ok) toast("success", "Berhasil", `Terhubung @${r.username}`);
+    else Swal.fire({ icon: "error", title: "Gagal Terhubung", text: r.error || "Unknown error" });
+  });
+}
+
+if (connectBtn) {
+  connectBtn.addEventListener("click", async () => {
+    const payload = readTwitterForm();
+    if (Object.values(payload).some(v => !v)) return toast("error", "Gagal", "Semua field wajib diisi");
+    const r = await postJSON("/settings/twitter", payload);
+    if (r.ok) Swal.fire({ icon: "success", title: "Tersimpan", text: `Terhubung @${r.username}` }).then(()=>location.reload());
+    else Swal.fire({ icon: "error", title: "Gagal Menyimpan", text: r.error || "Unknown error" });
+  });
+}
