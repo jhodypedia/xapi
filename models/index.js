@@ -23,6 +23,11 @@ export const Schedule = sequelize.define("Schedule", {
   active: { type: DataTypes.BOOLEAN, defaultValue: true }
 }, { timestamps: true });
 
+export const Config = sequelize.define("Config", {
+  key: { type: DataTypes.STRING, unique: true },
+  value: DataTypes.TEXT
+}, { timestamps: true });
+
 export const TwitterAccount = sequelize.define("TwitterAccount", {
   apiKey: DataTypes.TEXT,
   apiSecret: DataTypes.TEXT,
