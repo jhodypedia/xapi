@@ -1,0 +1,16 @@
+<h2 class="mb-3">Tweet Logs</h2>
+<table class="table">
+  <thead><tr><th>UserId</th><th>TweetId</th><th>Ok</th><th>Text</th><th>Error</th><th>Created</th></tr></thead>
+  <tbody>
+  <% logs.forEach(t=>{ %>
+    <tr>
+      <td><%= t.userId %></td>
+      <td><%= t.tweetId || '-' %></td>
+      <td><%= t.ok ? 'Yes' : 'No' %></td>
+      <td><%= t.text %></td>
+      <td><%= t.error || '-' %></td>
+      <td><%= new Date(t.createdAt).toLocaleString() %></td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
