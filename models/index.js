@@ -15,6 +15,14 @@ export const User = sequelize.define("User", {
   role: { type: DataTypes.STRING, defaultValue: "user" } // user | admin | suspended
 }, { timestamps: true });
 
+export const Schedule = sequelize.define("Schedule", {
+  userId: DataTypes.INTEGER,
+  text: DataTypes.TEXT,
+  intervalHours: DataTypes.INTEGER, // null = sekali
+  nextRun: DataTypes.DATE,
+  active: { type: DataTypes.BOOLEAN, defaultValue: true }
+}, { timestamps: true });
+
 export const TwitterAccount = sequelize.define("TwitterAccount", {
   apiKey: DataTypes.TEXT,
   apiSecret: DataTypes.TEXT,
