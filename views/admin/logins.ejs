@@ -1,0 +1,16 @@
+<h2 class="mb-3">Login Logs</h2>
+<table class="table">
+  <thead><tr><th>UserId</th><th>IP</th><th>Lokasi</th><th>UA</th><th>Status</th><th>Created</th></tr></thead>
+  <tbody>
+  <% logs.forEach(l=>{ %>
+    <tr class="<%= l.suspicious ? 'table-danger' : '' %>">
+      <td><%= l.userId %></td>
+      <td><%= l.ip %></td>
+      <td><%= l.city %>, <%= l.country %></td>
+      <td><%= l.browser %> / <%= l.os %> / <%= l.device %></td>
+      <td><%= l.suspicious ? 'Suspicious' : 'Normal' %></td>
+      <td><%= new Date(l.createdAt).toLocaleString() %></td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
