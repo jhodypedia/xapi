@@ -1,0 +1,16 @@
+<h3 class="mb-3"><i class="fa fa-bell me-2"></i>Notifications</h3>
+<div class="notice-list">
+  <% if (items.length === 0) { %>
+    <div class="empty"><i class="fa fa-inbox"></i><p>Belum ada notifikasi</p></div>
+  <% } %>
+  <% items.forEach(n => { %>
+    <div class="notice">
+      <div class="ic"><i class="fa fa-info"></i></div>
+      <div class="body">
+        <div class="title"><%= n.title %></div>
+        <div><%= n.message %></div>
+        <div class="time"><%= new Date(n.createdAt).toLocaleString() %></div>
+      </div>
+    </div>
+  <% }) %>
+</div>
