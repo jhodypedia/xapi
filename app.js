@@ -43,6 +43,7 @@ app.use((req, res, next) => {
   res.locals.currentPath = req.path;
   res.locals.alert = getAlert(req) || null;
   res.locals.sessionUser = req.session.user || null;
+  res.locals.hideLayout = false;
   next();
 });
 
