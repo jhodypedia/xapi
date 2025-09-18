@@ -1,0 +1,31 @@
+<div class="login-page">
+  <div class="login-card">
+    <h3 class="title text-center">Login</h3>
+    <p class="subtitle text-center text-muted">Silakan masuk ke akun Anda</p>
+    <form method="post" action="/login">
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input class="form-control" type="email" name="email" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input class="form-control" type="password" name="password" required>
+      </div>
+
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" name="remember" id="remember">
+        <label class="form-check-label" for="remember">Remember Me</label>
+      </div>
+
+      <% if (recaptchaSite) { %>
+        <div class="mb-3 text-center">
+          <div class="g-recaptcha" data-sitekey="<%= recaptchaSite %>"></div>
+        </div>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+      <% } %>
+
+      <button class="btn btn-primary w-100 ripple">Login</button>
+    </form>
+    <div class="tos"><a href="/tos" target="_blank">Terms of Service</a></div>
+  </div>
+</div>
