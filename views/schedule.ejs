@@ -1,0 +1,28 @@
+<h3 class="mb-3"><i class="fa fa-clock me-2"></i>Tweet Scheduler</h3>
+
+<div class="card mb-3">
+  <div class="card-title">Buat Jadwal Tweet</div>
+  <form method="post" action="/schedule">
+    <textarea class="form-control mb-2" name="text" placeholder="Isi tweet..." required></textarea>
+    <label>Ulangi tiap (jam) — kosongkan untuk sekali:</label>
+    <input class="form-control mb-2" name="intervalHours" type="number" min="1" placeholder="cth: 5">
+    <button class="btn btn-primary">Simpan</button>
+  </form>
+</div>
+
+<div class="card">
+  <div class="card-title">Daftar Jadwal</div>
+  <table class="table">
+    <thead><tr><th>Text</th><th>Interval</th><th>Next Run</th><th>Status</th></tr></thead>
+    <tbody>
+    <% tasks.forEach(t=>{ %>
+      <tr>
+        <td><%= t.text %></td>
+        <td><%= t.intervalHours ? t.intervalHours+' jam' : 'Sekali' %></td>
+        <td><%= new Date(t.nextRun).toLocaleString() %></td>
+        <td><%= t.active ? 'Aktif' : 'Nonaktif' %></td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+</div>
