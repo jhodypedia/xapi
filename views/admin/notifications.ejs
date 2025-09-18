@@ -1,0 +1,14 @@
+<h2 class="mb-3">All Notifications</h2>
+<table class="table">
+  <thead><tr><th>UserId</th><th>Title</th><th>Message</th><th>Created</th></tr></thead>
+  <tbody>
+  <% notes.forEach(n=>{ %>
+    <tr>
+      <td><%= n.userId %></td>
+      <td><%= n.title %></td>
+      <td><%= n.message %></td>
+      <td><%= new Date(n.createdAt).toLocaleString() %></td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
