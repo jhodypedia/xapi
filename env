@@ -1,0 +1,11 @@
+PORT=3000
+SESSION_SECRET=supersecret
+ENCRYPTION_KEY=12345678901234567890123456789012
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=yourpassword
+DB_NAME=twitter_bridge
+DB_DIALECT=mysql
+
+WA_STORE=./wa_store
