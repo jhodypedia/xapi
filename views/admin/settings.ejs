@@ -1,0 +1,12 @@
+<h2 class="mb-3">Admin Settings (reCAPTCHA)</h2>
+<form method="post" action="/admin/settings" class="card">
+  <div class="mb-3">
+    <label>reCAPTCHA Site Key</label>
+    <input class="form-control" name="siteKey" value="<%= siteKey %>">
+  </div>
+  <div class="mb-3">
+    <label>reCAPTCHA Secret Key</label>
+    <input class="form-control" name="secret" value="<%= secret %>">
+  </div>
+  <button class="btn btn-primary">Simpan</button>
+</form>
