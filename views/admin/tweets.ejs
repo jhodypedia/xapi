@@ -1,16 +1,15 @@
-<h2 class="mb-3">Tweet Logs</h2>
+<h3 class="mb-3"><i class="fab fa-twitter me-2"></i>Tweet Logs</h3>
 <table class="table">
-  <thead><tr><th>UserId</th><th>TweetId</th><th>Ok</th><th>Text</th><th>Error</th><th>Created</th></tr></thead>
+  <thead><tr><th>Time</th><th>User</th><th>Type</th><th>Content</th><th>Status</th></tr></thead>
   <tbody>
-  <% logs.forEach(t=>{ %>
-    <tr>
-      <td><%= t.userId %></td>
-      <td><%= t.tweetId || '-' %></td>
-      <td><%= t.ok ? 'Yes' : 'No' %></td>
-      <td><%= t.text %></td>
-      <td><%= t.error || '-' %></td>
-      <td><%= new Date(t.createdAt).toLocaleString() %></td>
-    </tr>
-  <% }) %>
+    <% rows.forEach(r => { %>
+      <tr>
+        <td><%= r.createdAt.toLocaleString() %></td>
+        <td><%= r.User?.email %></td>
+        <td><%= r.type %></td>
+        <td><%= (r.content||'').slice(0,80) %></td>
+        <td><%= r.error ? ('❌ ' + r.error.slice(0,60)) : '✅ '+(r.twitterId||'-') %></td>
+      </tr>
+    <% }) %>
   </tbody>
 </table>
