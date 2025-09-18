@@ -47,6 +47,9 @@
       <a href="/my-login-logs" class="item ajax-link <%= currentPath==='/my-login-logs'?'active':'' %>">
         <i class="fa fa-shield-alt"></i> Login Logs
       </a>
+<a href="/my-login-logs" class="item ajax-link <%= currentPath==='logout'?'active':'' %>">
+        <i class="fa right-from-bracket"></i> Logout
+      </a>
 
       <% if (sessionUser && sessionUser.role === 'admin') { %>
         <div class="hr"></div>
@@ -76,23 +79,6 @@
 
     <div class="foot">© <span id="y"></span> PansaGroup</div>
   </aside>
-
-  <!-- Topbar -->
-  <header class="topbar">
-    <% if (twitterUser) { %>
-      <div class="dropdown profile">
-        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
-          <img src="<%= twitterUser.profile_image_url %>" class="avatar me-2" alt="avatar">
-          <span class="handle">@<%= twitterUser.username %></span>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end shadow">
-          <li><a class="dropdown-item" href="/logout"><i class="fa fa-sign-out-alt me-2"></i> Logout</a></li>
-        </ul>
-      </div>
-    <% } else { %>
-      <a href="/logout" class="btn btn-outline"><i class="fa fa-sign-out-alt"></i> Logout</a>
-    <% } %>
-  </header>
 
   <!-- Content -->
   <main class="content" id="content">
