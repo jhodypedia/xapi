@@ -1,0 +1,10 @@
+<h2 class="mb-3">WhatsApp Connect</h2>
+<div class="card">
+  <% if (qrBase64) { %>
+    <p>Scan QR berikut di aplikasi WhatsApp Anda:</p>
+    <img src="<%= qrBase64 %>" style="max-width:300px">
+    <p class="text-muted mt-2">Jika QR berubah/expired, refresh halaman ini.</p>
+  <% } else { %>
+    <div class="alert alert-success">WhatsApp sudah terkoneksi ✅</div>
+  <% } %>
+</div>
