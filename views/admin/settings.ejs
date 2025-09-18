@@ -1,12 +1,55 @@
-<h2 class="mb-3">Admin Settings (reCAPTCHA)</h2>
-<form method="post" action="/admin/settings" class="card">
-  <div class="mb-3">
-    <label>reCAPTCHA Site Key</label>
-    <input class="form-control" name="siteKey" value="<%= siteKey %>">
+<h3 class="mb-3"><i class="fa fa-wrench me-2"></i>Admin Settings</h3>
+
+<div class="settings-grid">
+  <!-- Card: reCAPTCHA -->
+  <div class="card lift">
+    <div class="card-title">Google reCAPTCHA</div>
+    <form method="post" action="/admin/settings/recaptcha">
+      <label class="form-label">Site Key</label>
+      <input class="form-control mb-2" type="text" name="siteKey" value="<%= recaptcha?.siteKey || '' %>">
+      <label class="form-label">Secret Key</label>
+      <input class="form-control mb-3" type="text" name="secretKey" value="<%= recaptcha?.secretKey || '' %>">
+      <button class="btn btn-primary ripple"><i class="fa fa-save me-1"></i> Save</button>
+    </form>
   </div>
-  <div class="mb-3">
-    <label>reCAPTCHA Secret Key</label>
-    <input class="form-control" name="secret" value="<%= secret %>">
+
+  <!-- Card: Scheduler -->
+  <div class="card lift">
+    <div class="card-title">Scheduler Auto-Post</div>
+    <form method="post" action="/admin/settings/scheduler">
+      <label class="form-label">Interval (jam)</label>
+      <input class="form-control mb-3" type="number" name="interval" min="1" value="<%= scheduler?.interval || 5 %>">
+      <button class="btn btn-primary ripple"><i class="fa fa-save me-1"></i> Update</button>
+    </form>
+    <p class="text-muted mt-2">Atur berapa jam sekali sistem melakukan auto-post looping.</p>
   </div>
-  <button class="btn btn-primary">Simpan</button>
-</form>
+</div>
+
+<div class="settings-grid mt-3">
+  <!-- Card: Notifikasi WhatsApp -->
+  <div class="card lift">
+    <div class="card-title">Notifikasi WhatsApp</div>
+    <form method="post" action="/admin/settings/wa">
+      <label class="form-label">Nomor WhatsApp Admin</label>
+      <input class="form-control mb-2" type="text" name="waNumber" placeholder="62xxx" value="<%= wa?.number || '' %>">
+      <label class="form-label">Status</label>
+      <select class="form-control mb-3" name="waEnabled">
+        <option value="1" <%= wa?.enabled ? 'selected' : '' %>>Aktif</option>
+        <option value="0" <%= !wa?.enabled ? 'selected' : '' %>>Nonaktif</option>
+      </select>
+      <button class="btn btn-primary ripple"><i class="fa fa-save me-1"></i> Simpan</button>
+    </form>
+    <p class="text-muted mt-2">Jika aktif, user akan menerima notifikasi via WhatsApp (Baileys).</p>
+  </div>
+
+  <!-- Card: Terms of Service -->
+  <div class="card lift">
+    <div class="card-title">Terms of Service (TOS)</div>
+    <form method="post" action="/admin/settings/tos">
+      <label class="form-label">Isi TOS</label>
+      <textarea class="form-control mb-3" name="tos" rows="6"><%= tos || '' %></textarea>
+      <button class="btn btn-primary ripple"><i class="fa fa-save me-1"></i> Update</button>
+    </form>
+    <p class="text-muted mt-2">TOS akan ditampilkan di halaman login/registrasi.</p>
+  </div>
+</div>
