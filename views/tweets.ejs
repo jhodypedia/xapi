@@ -1,0 +1,36 @@
+<h3 class="mb-3"><i class="fab fa-twitter me-2"></i>My Tweets</h3>
+<% if (typeof error !== 'undefined' && error) { %>
+  <div class="alert alert-danger"><i class="fa fa-triangle-exclamation"></i><div><b>Error</b><br><%= error %></div></div>
+<% } %>
+
+<div class="card mb-3 lift">
+  <div class="card-title">Buat Tweet</div>
+  <form class="ajax" method="post" action="/tweets">
+    <textarea class="form-control mb-2" name="text" placeholder="Tulis tweet..."></textarea>
+    <button class="btn btn-primary ripple"><i class="fa fa-paper-plane"></i> Post</button>
+  </form>
+</div>
+
+<div class="card">
+  <div class="card-title">20 Tweet Terbaru</div>
+  <% if (!tweets || tweets.length===0) { %>
+    <div class="empty"><i class="fa fa-box-open"></i><p>Belum ada tweet.</p></div>
+  <% } else { %>
+    <table class="table">
+      <thead><tr><th>Teks</th><th>Dibuat</th><th>Metrics</th></tr></thead>
+      <tbody>
+      <% tweets.forEach(t => { %>
+        <tr>
+          <td><%= t.text %></td>
+          <td><%= new Date(t.created_at).toLocaleString() %></td>
+          <td>
+            <% if (t.public_metrics) { %>
+              ❤️ <%= t.public_metrics.like_count %> · 🔁 <%= t.public_metrics.retweet_count %>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
