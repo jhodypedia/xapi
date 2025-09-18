@@ -1,5 +1,5 @@
 import geoip from "geoip-lite";
-import UAParser from "ua-parser-js";
+import { UAParser } from "ua-parser-js";
 import { LoginLog, User } from "../models/index.js";
 import { sendWA } from "../services/whatsapp.js";
 
