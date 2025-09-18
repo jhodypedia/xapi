@@ -1,21 +1,15 @@
-<h2 class="mb-3">Manage Users</h2>
+<h3 class="mb-3"><i class="fa fa-users me-2"></i>Manage Users</h3>
 <table class="table">
-  <thead><tr><th>Email</th><th>Username</th><th>Role</th><th>Created</th><th>Aksi</th></tr></thead>
+  <thead><tr><th>#</th><th>Username</th><th>Email</th><th>Role</th><th>Created</th></tr></thead>
   <tbody>
-  <% users.forEach(u=>{ %>
-    <tr>
-      <td><%= u.email %></td>
-      <td><%= u.username %></td>
-      <td><%= u.role %></td>
-      <td><%= new Date(u.createdAt).toLocaleString() %></td>
-      <td>
-        <% if (u.role!=="suspended") { %>
-        <form method="post" action="/admin/users/<%= u.id %>/suspend">
-          <button class="btn btn-sm btn-danger">Suspend</button>
-        </form>
-        <% } %>
-      </td>
-    </tr>
-  <% }) %>
+    <% users.forEach((u,i)=>{ %>
+      <tr>
+        <td><%= i+1 %></td>
+        <td><%= u.username %></td>
+        <td><%= u.email %></td>
+        <td><span class="badge <%= u.role==='admin'?'badge-info':'badge-success' %>"><%= u.role %></span></td>
+        <td><%= u.createdAt.toLocaleString() %></td>
+      </tr>
+    <% }) %>
   </tbody>
 </table>
